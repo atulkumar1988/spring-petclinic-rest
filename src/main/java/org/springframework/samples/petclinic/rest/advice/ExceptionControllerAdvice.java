@@ -18,9 +18,12 @@ package org.springframework.samples.petclinic.rest.advice;
 
 import java.net.URI;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +31,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.samples.petclinic.rest.controller.BindingErrorsResponse;
 import org.springframework.samples.petclinic.rest.dto.ValidationMessageDto;
 import org.springframework.validation.BindingResult;
@@ -131,7 +135,7 @@ public class ExceptionControllerAdvice {
                         fieldError.getField(),
                         defaultMessage,
                         rejectedValue);
-                    return new ValidationMessageDto(message)
+                    return new ValidationMessageDto(message, new HashMap<>())
                         .putAdditionalProperty("field", fieldError.getField())
                         .putAdditionalProperty("rejectedValue", rejectedValue)
                         .putAdditionalProperty("defaultMessage", defaultMessage);
@@ -144,6 +148,36 @@ public class ExceptionControllerAdvice {
             detail.setProperty("schemaValidationErrors", schemaValidationErrors);
             return ResponseEntity.status(status).body(detail);
         }
+        return ResponseEntity.status(status).body(detail);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseBody
+    public ResponseEntity<ProblemDetail> handleHttpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ProblemDetail detail = this.detailBuild(e, status, request.getRequestURL(), ERROR_INVALID_REQUEST);
+        detail.setTitle(MethodArgumentNotValidException.class.getSimpleName());
+
+        Throwable rootCause = e.getMostSpecificCause();
+        String defaultMessage = Objects.toString(rootCause == null ? e.getMessage() : rootCause.getMessage(), "Validation failed");
+        String fieldPath = "requestBody";
+        Throwable cause = e.getCause();
+        if (cause instanceof JsonMappingException jsonMappingException) {
+            String derivedPath = jsonMappingException.getPath().stream()
+                .map(reference -> reference.getFieldName() != null ? reference.getFieldName() : "[" + reference.getIndex() + "]")
+                .collect(Collectors.joining("."));
+            if (!derivedPath.isBlank()) {
+                fieldPath = derivedPath;
+            }
+        }
+        String rejectedValue = defaultMessage.contains("must not be null") ? "null" : "invalid";
+        String message = "Field '%s' %s (rejected value: %s)".formatted(fieldPath, defaultMessage, rejectedValue);
+        detail.setProperty("schemaValidationErrors", List.of(
+            new ValidationMessageDto(message, new HashMap<>())
+                .putAdditionalProperty("field", fieldPath)
+                .putAdditionalProperty("rejectedValue", rejectedValue)
+                .putAdditionalProperty("defaultMessage", defaultMessage)));
+        logger.debug("Unreadable request body at {} {}: {}", request.getMethod(), request.getRequestURI(), defaultMessage);
         return ResponseEntity.status(status).body(detail);
     }
 
