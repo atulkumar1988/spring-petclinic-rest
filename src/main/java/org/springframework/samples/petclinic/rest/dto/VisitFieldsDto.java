@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.jspecify.annotations.Nullable;
@@ -26,6 +27,7 @@ public record VisitFieldsDto(
      */
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Valid
+    @FutureOrPresent
     @Schema(name = "date", example = "2013-01-01", description = "The date of the visit.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("date")
     @Nullable LocalDate date,

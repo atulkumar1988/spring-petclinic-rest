@@ -20,8 +20,11 @@ import org.springframework.samples.petclinic.rest.controller.v1.VisitRestControl
 import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.mapper.VisitMapper;
 import org.springframework.samples.petclinic.model.Owner;
@@ -36,13 +39,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -182,6 +188,27 @@ class VisitRestControllerV1Tests {
         		.content(newVisitAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))
         		.andExpect(status().isBadRequest());
      }
+
+    @ParameterizedTest
+    @CsvSource({
+        "2020-01-01, Annual checkup",
+        "2000-02-29, Vaccination"
+    })
+    @WithMockUser(roles = "OWNER_ADMIN")
+    void testCreateVisitWithPastDateReturnsBadRequest(String visitDate, String description) throws Exception {
+        when(clinicService.findPetById(8)).thenReturn(visits.get(0).getPet());
+        String newVisitAsJSON = """
+            {"date":"%s","description":"%s","id":999,"petId":8}
+            """.formatted(visitDate, description);
+
+        MvcResult result = mockMvc.perform(post("/api/visits")
+                .content(newVisitAsJSON)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+
+        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
 
     @Test
     @WithMockUser(roles="OWNER_ADMIN")
