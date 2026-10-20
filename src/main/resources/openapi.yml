@@ -1,1 +1,65 @@
-test
+openapi: 3.0.1
+info:
+  title: Spring PetClinic
+  description: Spring PetClinic Sample Application.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  version: '1.0'
+servers:
+  - url: http://localhost:9966/petclinic/api
+tags:
+  - name: oops
+    description: Endpoint which always returns an error.
+  - name: owners
+    description: Endpoints related to pet owners.
+  - name: owner-v2
+    description: Version 2 endpoints related to pet owners.
+  - name: users
+    description: Endpoints related to users.
+  - name: pets
+    description: Endpoints related to pets.
+  - name: pet-v2
+    description: Version 2 endpoints related to pets.
+  - name: vets
+    description: Endpoints related to vets.
+  - name: visits
+    description: Endpoints related to vet visits.
+  - name: pettypes
+    description: Endpoints related to pet types.
+  - name: specialties
+    description: Endpoints related to vet specialties.
+paths:
+  /oops:
+    get:
+      tags:
+        - oops
+      operationId: failingRequest
+      summary: Always fails
+      description: Produces sample error response.
+      responses:
+        200:
+          description: Never returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            text/plain:
+              schema:
+                type: string
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+  ...
