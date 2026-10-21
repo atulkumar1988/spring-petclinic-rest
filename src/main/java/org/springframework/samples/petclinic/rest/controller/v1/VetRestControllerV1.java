@@ -26,11 +26,12 @@ import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.rest.api.VetsApi;
 import org.springframework.samples.petclinic.rest.dto.VetDto;
 import org.springframework.samples.petclinic.service.ClinicService;
-import org.springsecurity.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
