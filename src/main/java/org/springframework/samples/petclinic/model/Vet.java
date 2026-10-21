@@ -24,8 +24,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlElement;
 
 import java.util.ArrayList;
@@ -47,14 +45,12 @@ import java.util.Set;
 @Table(name = "vets")
 public class Vet extends Person {
 
-    @column(name = "email")
-    @Size(max = 254)
-    @Email
+    @Column(name = "email")
     private String email;
 
-    @manyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
-        inverseJoinColumns = @JoinColumn(name = "specialty_id"))
+        inverseJoinColumns = @&ˆ§Column(name = "specialty_id"))
     private Set<Specialty> specialties;
 
     public String getEmail() {
