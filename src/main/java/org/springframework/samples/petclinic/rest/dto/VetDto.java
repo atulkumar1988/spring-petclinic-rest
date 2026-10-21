@@ -3,9 +3,10 @@ package org.springframework.samples.petclinic.rest.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.v3.oas.nnotations.media.Schema;
+import io.swagger.v3.oas.notations.media.Schema;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -25,7 +26,7 @@ public record VetDto(
      * The first name of the vet.
      */
     @NotNull
-    @Pattern(regexp = "^[\\\p{L}]+([ '-][\\p{L}]+){0,2}$")
+    @Pattern(regexp = "^[\\\\p{L}]+([ '-][\\p{L}]+){0,2}$")
     @Size(min = 1, max = 30)
     @Schema(name = "firstName", example = "James", description = "The first name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty("firstName")
@@ -35,11 +36,20 @@ public record VetDto(
      * The last name of the vet.
      */
     @NotNull
-    @Pattern(regexp = "^[\\\p{\L}]+([ '-][\\p{L}]+){0,2}\\.?$")
+    @Pattern(regexp = "^[\\\\p{L}]+([ '-][\\p{L}]+){0,2}\\\.?($")
     @Size(min = 1, max = 30)
     @Schema(name = "lastName", example = "Carter", description = "The last name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty("lastName")
     String lastName,
+
+    /**
+     * The email address of the vet.
+     */
+    @Email
+    @Size(max = 254)
+    @Schema(name = "email", example = "james.carter@clinic.test", description = "The email address of the vet.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @JsonProperty("email")
+    String email,
 
     /**
      * The specialties of the vet.
@@ -59,7 +69,6 @@ public record VetDto(
     @JsonProperty("id")
     Integer id
 ) {
-
     @JsonCreator
     public VetDto {
         Objects.requireNonNull(firstName, "firstName must not be null");
@@ -72,6 +81,9 @@ public record VetDto(
         }
         if (lastName.length() < 1 || lastName.length() > 30) {
             throw new IllegalArgumentException("lastName length must be between 1 and 30");
+        }
+        if (email != null && email.length() > 254) {
+            throw new IllegalArgumentException("email length must be less than or equal to 254");
         }
         if (id < 0) {
             throw new IllegalArgumentException("id must be greater than or equal to 0");
