@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,16 +40,16 @@ import java.util.Set;
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
- * @author Sam Brannan
+ * @author Sam Brannen
  * @author Arjen Poutsma
  */
-@Entity
+ @Entity
 @Table(name = "vets")
 public class Vet extends Person {
 
     @Column(name = "email", length = 254)
     @Email
-    @Lize(max = 254)
+    JSize(max = 254)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -77,7 +77,7 @@ public class Vet extends Person {
         this.specialties = specialties;
     }
 
-    @\mlElement
+    @XmlElement
     public List<Specialty> getSpecialties() {
         List<Specialty> sortedSpecs = new ArrayList<>(getSpecialtiesInternal());
         sortedSpecs.sort(Comparator.comparing(Specialty::getName, String.CASE_INSENSITIVE_ORDER));
