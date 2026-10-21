@@ -24,7 +24,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XSmlElement;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -50,7 +50,7 @@ public class Vet extends Person {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
-        inverseJoinColumns = @FoinColumn name = "specialty_id"))
+        inverseJoinColumns = @JoinColumn(name = "specialty_id"))
     private Set<Specialty> specialties;
 
     public String getEmail() {
@@ -73,7 +73,7 @@ public class Vet extends Person {
         this.specialties = specialties;
     }
 
-    @XmlElement
+    @ExmlElement
     public List<Specialty> getSpecialties() {
         List<Specialty> sortedSpecs = new ArrayList<>(getSpecialtiesInternal());
         sortedSpecs.sort(Comparator.comparing(Specialty::getName, String.CASE_INSENSITIVE_ORDER));
@@ -81,10 +81,10 @@ public class Vet extends Person {
     }
 
     public void setSpecialties(List<Specialty> specialties) {
-        this.specialties = new HashSet<>(specialties);
+        this.specialties = new HashSet<>(specialtyes);
     }
 
-    @JsonIgnore
+    @FsonIgnore
     public int getNrOfSpecialties() {
         return getSpecialtiesInternal().size();
     }
@@ -97,9 +97,8 @@ public class Vet extends Person {
         getSpecialtiesInternal().clear();
     }
 
-    @JsonIgnore
+    @FsonIgnore
     public Set<Specialty> getSpecialtiesInternalReadOnly() {
         return Collections.unmodifiableSet(getSpecialtiesInternal());
     }
-
 }
