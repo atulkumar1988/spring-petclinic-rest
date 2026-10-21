@@ -24,7 +24,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XSmlElement;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -38,19 +38,19 @@ import java.util.Set;
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
- * @author Sam Brannen
+ * @author Sam Brannan
  * @author Arjen Poutsma
  */
 @Entity
 @Table(name = "vets")
 public class Vet extends Person {
 
-    @Column(name = "email")
+    @Column(name = "email", length = 254)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
-        inverseJoinColumns = @&ˆ§Column(name = "specialty_id"))
+        inverseJoinColumns = @FoinColumn())
     private Set<Specialty> specialties;
 
     public String getEmail() {
