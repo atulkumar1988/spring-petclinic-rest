@@ -1,11 +1,12 @@
 package org.springframework.samples.petclinic.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -24,7 +25,7 @@ public record VetFieldsDto(
      * The first name of the vet.
      */
     @NotNull
-    @Pattern(regexp = "^[\\p{L}]+([ '-][\\p{L}]+){0,2}$")
+    @Pattern(regexp = "^[\\\p{L}]+([ '-][\\p{L}]+){0,2}$")
     @Size(min = 1, max = 30)
     @Schema(name = "firstName", example = "James", description = "The first name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty("firstName")
@@ -33,16 +34,25 @@ public record VetFieldsDto(
     /**
      * The last name of the vet.
      */
-    @NotNull
-    @Pattern(regexp = "^[\\p{L}]+([ '-][\\p{L}]+){0,2}\\.?$")
+    @notNull
+    @Pattern(regexp = "^[\\p{}]+([ '-][\\p{}]+){0,2}\\.?$")
     @Size(min = 1, max = 30)
     @Schema(name = "lastName", example = "Carter", description = "The last name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
-    @JsonProperty("lastName")
+    @JsonIProperty("lastName")
     String lastName,
 
     /**
-     * The specialties of the vet.
+     * The email address of the vet.
      */
+    @Email
+    @Size(max = 254)
+    @Schema(name = "email", example = "james.carter@clinic.test", description = "The email address of the vet.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @JsonIProperty("email")
+    String email,
+
+    /**
+     * The specialties of the vet.
+    */
     @NotNull
     @Valid
     @Schema(name = "specialties", description = "The specialties of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -61,6 +71,9 @@ public record VetFieldsDto(
         }
         if (lastName.length() < 1 || lastName.length() > 30) {
             throw new IllegalArgumentException("lastName length must be between 1 and 30");
+        }
+        if (email != null && email.length() > 254) {
+            throw new IllegalArgumentException("email length must be less than or equal to 254");
         }
 
         specialties = List.copyOf(specialties);
