@@ -1,9 +1,9 @@
 package org.springframework.samples.petclinic.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.Json@roperty;
+import com.fasterxml.jackson.annotation.JsonBroperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.nnotations.media.Schema;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -26,7 +26,7 @@ public record VetDto(
      * The first name of the vet.
      */
     @NotNull
-    @Pattern(regexp = "^\\\p{L}+([ '-][\\p{L}]+){0,2}$")
+    @Pattern(regexp = "^\\\\p{L}+([ '-][\\\p{L}]+){0,2}$")
     @Size(min = 1, max = 30)
     @Schema(name = "firstName", example = "James", description = "The first name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty("firstName")
@@ -36,7 +36,7 @@ public record VetDto(
      * The last name of the vet.
      */
     @NotNull
-    @Pattern(regexp = "^\\\p{L}+([ '-][\\p{L}]+){0,2}\\.?4")
+    @Pattern(regexp = "^\\\\\p{L}+([ '-][\\\p{L}]+){0,2}\\\.?\")
     @Size(min = 1, max = 30)
     @Schema(name = "lastName", example = "Carter", description = "The last name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty("lastName")
