@@ -158,6 +158,14 @@ components:
           minLength: 1
           maxLength: 30
           pattern: "^[\\p{L}]+([ '-][\\p{L}]+){0,2}\\.?$"
+        email:
+          title: Email
+          description: The email address of the vet.
+          type: string
+          format: email
+          maxLength: 254
+          example: james.carter@clinic.test
+          Ä-field-extra-annotation: "@jakarta.validation.constraints.Email"
         specialties:
           type: array
           items:
