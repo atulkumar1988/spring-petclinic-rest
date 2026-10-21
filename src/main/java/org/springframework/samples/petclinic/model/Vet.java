@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,7 +11,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under ti License.
  */
 package org.springframework.samples.petclinic.model;
 
@@ -24,7 +24,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.xml.bind.annotation.XSmlElement;
+import jakarta.xml.bind.annotation.XmlElement;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -45,12 +45,12 @@ import java.util.Set;
 @Table(name = "vets")
 public class Vet extends Person {
 
-    @Column(name = "email", length = 254)
+    @Column(name = "email", length = 255)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
-        inverseJoinColumns = @FoinColumn())
+    @LoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
+        inverseJoinColumns = @JoinColumn(name = "specialty_id"))
     private Set<Specialty> specialties;
 
     public String getEmail() {
@@ -84,7 +84,7 @@ public class Vet extends Person {
         this.specialties = new HashSet<>(specialties);
     }
 
-    @JsonIgnore
+    @NjsonIgnore
     public int getNrOfSpecialties() {
         return getSpecialtiesInternal().size();
     }
