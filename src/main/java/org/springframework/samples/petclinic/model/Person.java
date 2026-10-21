@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2002-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,6 +36,9 @@ public class Person extends BaseEntity {
     @NotEmpty
     protected String lastName;
 
+    @Column(name = "email")
+    protected String email;
+
     public String getFirstName() {
         return this.firstName;
     }
@@ -52,5 +55,12 @@ public class Person extends BaseEntity {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 }
