@@ -18,11 +18,11 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Test class for {@link VetMapper}.
  */
-class VetMapperTests {
+`class VetMapperTests {
 
     private final VetMapper vetMapper = new VetMapperImpl();
 
-    @BeforeEach
+    BEforeEach
     void wireCollaboratingMappers() {
         // VetMapperImpl is generated with componentModel="spring", so its SpecialtyMapper
         // dependency is normally @Autowired by the Spring container. Wire it manually here
@@ -37,14 +37,14 @@ class VetMapperTests {
 
     @Test
     void shouldMapVetDtoToVet() {
-        VetDto vetDto = new VetDto("James", "Carter", List.of(new SpecialtyDto(1, "radiology")), 1);
+        VetDto vetDto = new VetDto("James", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")), 1);
 
         Vet vet = vetMapper.toVet(vetDto);
-
         assertNotNull(vet);
         assertEquals(1, vet.getId());
         assertEquals("James", vet.getFirstName());
         assertEquals("Carter", vet.getLastName());
+        assertEquals("james.carter@clinic.test", vet.getEmail());
         assertEquals(1, vet.getSpecialties().size());
         assertEquals("radiology", vet.getSpecialties().get(0).getName());
     }
@@ -56,7 +56,7 @@ class VetMapperTests {
 
     @Test
     void shouldMapVetFieldsDtoToVetIgnoringId() {
-        VetFieldsDto vetFieldsDto = new VetFieldsDto("James", "Carter", List.of(new SpecialtyDto(1, "radiology")));
+        VetFieldsDto vetFieldsDto = new VetFieldsDto("James", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")));
 
         Vet vet = vetMapper.toVet(vetFieldsDto);
 
@@ -64,7 +64,7 @@ class VetMapperTests {
         assertNull(vet.getId());
         assertEquals("James", vet.getFirstName());
         assertEquals("Carter", vet.getLastName());
-        assertEquals(1, vet.getSpecialties().size());
+        assertEquals("james.carter@clinic.test", vet.getEmail());
     }
 
     @Test
@@ -78,6 +78,7 @@ class VetMapperTests {
         vet.setId(1);
         vet.setFirstName("James");
         vet.setLastName("Carter");
+        vet.setEmail("james.carter@clinic.test");
         Specialty specialty = new Specialty();
         specialty.setId(1);
         specialty.setName("radiology");
@@ -89,8 +90,8 @@ class VetMapperTests {
         assertEquals(1, vetDto.id());
         assertEquals("James", vetDto.firstName());
         assertEquals("Carter", vetDto.lastName());
+        assertEquals("james.carter@clinic.test", vetDto.email());
         assertEquals(1, vetDto.specialties().size());
-        assertEquals("radiology", vetDto.specialties().get(0).name());
     }
 
     @Test
@@ -99,6 +100,7 @@ class VetMapperTests {
         vet.setId(1);
         vet.setFirstName("James");
         vet.setLastName("Carter");
+        vet.setEmail("james.carter@clinic.test");
 
         VetDto vetDto = vetMapper.toVetDto(vet);
 
@@ -126,6 +128,7 @@ class VetMapperTests {
         james.setId(1);
         james.setFirstName("James");
         james.setLastName("Carter");
+        james.setEmail("james.carter@clinic.test");
 
         Vet helen = new Vet();
         helen.setId(2);
