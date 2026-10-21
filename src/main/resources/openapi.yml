@@ -1,13 +1,13 @@
 openapi: 3.0.1
+servers:
+  - url: /api
 info:
   title: Spring PetClinic
   description: Spring PetClinic Sample Application.
+  version: '1.0'
   license:
     name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0
-  version: '1.0'
-servers:
-  - url: http://localhost:9966/petclinic/api
+    url: http://www.apache.org/licenses/LICENSE-2.0
 tags:
   - name: oops
     description: Endpoint which always returns an error.
@@ -39,4 +39,136 @@ paths:
       description: Produces sample error response.
       responses:
         200:
-          description: Never retur
+          description: Never returns this.
+  /vets:
+    get:
+      tags:
+        - vets
+      operationId: listVets
+      summary: List all vets
+      responses:
+        200:
+          description: List of vets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vet'
+        404:
+          description: No vets found
+    post:
+      tags: [vets]
+      operationId: addVet
+      summary: Add a vet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vet'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vet'
+        400:
+          description: Invalid input
+  /vets/{vetId}:
+    get:
+      tags: [vets]
+      operationId: getVet
+      parameters:
+        - name: vetId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Vet details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vet'
+        404:
+          description: Vet not found
+    put:
+      tags: [vets]
+      operationId: updateVet
+      parameters:
+        - name: vetId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vet'
+      responses:
+        204:
+          description: Updated (No content)
+        400:
+          description: Invalid input
+        404:
+          description: Vet not found
+    delete:
+      tags: [vets]
+      operationId: deleteVet
+      parameters:
+        - name: vetId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Deleted
+        404:
+          description: Vet not found
+components:
+  schemas:
+    Specialty:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: radiology
+    VetFields:
+      type: object
+      required: [firstName, lastName, specialties]
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 30
+          pattern: "^[\\\{L}]+([ '-][\\\{L}]+){0,2}$"
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 30
+          pattern: "^[\\p{L}]+([ '-][\\p{L}]+){0,2}\\.?$"
+        specialties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Specialty'
+    Vet:
+      allOf:
+        - $ref: '#/components/schemas/VetFields'
+        - type: object
+          required: [id]
+          properties:
+            id:
+              type: integer
+              format: int32
+              example: 1
