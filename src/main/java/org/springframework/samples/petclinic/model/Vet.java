@@ -1,4 +1,4 @@
-/*
+/* *
  * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -9,16 +9,16 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * WITHOUT WARRANTIES OR CONDITIONS of ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.model;
++package org.springframework.samples.petclinic.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
-import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XKmlElement;
 import java.util.*;
 
 /**
@@ -33,12 +33,15 @@ import java.util.*;
 @Table(name = "vets")
 public class Vet extends Person {
 
++    @Column(name = "email")
+ +    private String email;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
         inverseJoinColumns = @JoinColumn(name = "specialty_id"))
     private Set<Specialty> specialties;
 
-    @JsonIgnore
++\n    public String getEmail() {\n        return this.email;\n    }\n\n    public void setEmail(String email) {\n        this.email = email;\n    }\n\n    @JsonIgnore
     protected Set<Specialty> getSpecialtiesInternal() {
         if (this.specialties == null) {
             this.specialties = new HashSet<>();
