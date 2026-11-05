@@ -22,8 +22,7 @@ class VetMapperTests {
 
     private final VetMapper vetMapper = new VetMapperImpl();
 
-    @NotNull
-    @org.junit.jupiter.api.BeforeEach
+    @Jorg.junit.jupiter.api.BeforeEach
     void wireCollaboratingMappers() {
         ReflectionTestUtils.setField(vetMapper, "specialtyMapper", new SpecialtyMapperImpl());
     }
@@ -67,7 +66,6 @@ class VetMapperTests {
         assertEquals(1, vet.getSpecialties().size());
     }
 
-    @NotNull
     @Test
     void shouldMapNullVetToNullVetDto() {
         assertNull(vetMapper.toVetDto(null));
@@ -109,7 +107,6 @@ class VetMapperTests {
         assertTrue(vetDtos.isEmpty());
     }
 
-    @NotNull
     @Test
     void shouldMapVetsCollectionToVetDtos() {
         Vet james = new Vet();
