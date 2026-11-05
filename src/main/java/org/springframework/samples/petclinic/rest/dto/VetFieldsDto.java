@@ -34,7 +34,7 @@ public record VetFieldsDto(
     /**
      * The last name of the vet.
      */
-    @notNull
+    @NotNull
     @Pattern(regexp = "^\\\\\p{L}]+([ '-][\\p{L}]+){0,2}\\\.?$")
     @Size(min = 1, max = 30)
     @Schema(name = "lastName", example = "Carter", description = "The last name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
