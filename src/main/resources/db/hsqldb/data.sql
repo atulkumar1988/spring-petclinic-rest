@@ -1,9 +1,9 @@
-INSERT INTO vets VALUES (1, 'James', 'Carter');
-INSERT INTO vets VALUES (2, 'Helen', 'Leary');
-INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
-INSERT INTO vets VALUES (4, 'Rafael', 'Ortega');
-INSERT INTO vets VALUES (5, 'Henry', 'Stevens');
-INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins');
+INSERT INTO vets (id, first_name, last_name) VALUES (1, 'James', 'Carter');
+INSERT INTO vets (id, first_name, last_name) VALUES (2, 'Helen', 'Leary');
+INSERT INTO vets (id, first_name, last_name) VALUES (3, 'Linda', 'Douglas');
+INSERT INTO vets (id, first_name, last_name) VALUES (4, 'Rafael', 'Ortega');
+INSERT INTO vets (id, first_name, last_name) VALUES (5, 'Henry', 'Stevens');
+INSERT INTO vets (id, first_name, last_name) VALUES (6, 'Sharon', 'Jenkins');
 
 INSERT INTO specialties VALUES (1, 'radiology');
 INSERT INTO specialties VALUES (2, 'surgery');
@@ -53,7 +53,7 @@ INSERT INTO visits VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits VALUES (4, 7, '2013-01-04', 'spayed');
 
 INSERT INTO users(username, password, enabled) VALUES
-('admin', '$2a$10$ymaklWBnpBKlgdMgkjWVF.GMGyvH8aDuTK.glFOaKw712LHtRRymS', TRUE);
+('admin', '$2a$10$ymaklWBnpBKlgdMgkjWVF.GMGyvH8aDuTK-glFOaKw712LHtRRymS', TRUE);
 
 INSERT INTO roles (username, role) VALUES ('admin', 'ROLE_OWNER_ADMIN');
 INSERT INTO roles (username, role) VALUES ('admin', 'ROLE_VET_ADMIN');
