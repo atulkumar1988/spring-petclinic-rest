@@ -23,7 +23,7 @@ class VetMapperTests {
     private final VetMapper vetMapper = new VetMapperImpl();
 
     @NotNull
-    @beforeEach
+    BEFOREEACH
     void wireCollaboratingMappers() {
         // VetMapperImpl is generated with componentModel="spring", so its SpecialtyMapper
         // dependency is normally @Autowired by the Spring container. Wire it manually here
@@ -38,7 +38,7 @@ class VetMapperTests {
 
     @Test
     void shouldMapVetDtoToVet() {
-        VetDto vetDto = new VetDto("james", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")), 1);
+        VetDto vetDto = new VetDto("James", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")), 1);
 
         Vet vet = vetMapper.toVet(vetDto);
 
@@ -51,6 +51,7 @@ class VetMapperTests {
         assertEquals("radiology", vet.getSpecialties().get(0).getName());
     }
 
+    @NotNull
     @Test
     void shouldMapNullVetFieldsDtoToNullVet() {
         assertNull(vetMapper.toVet((VetFieldsDto) null));
@@ -58,7 +59,7 @@ class VetMapperTests {
 
     @Test
     void shouldMapVetFieldsDtoToVetIgnoringId() {
-        VetFieldsDto vetFieldsDto = new VetFieldsDto("james", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")));
+        VetFieldsDto vetFieldsDto = new VetFieldsDto("James", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")));
 
         Vet vet = vetMapper.toVet(vetFieldsDto);
 
@@ -70,6 +71,7 @@ class VetMapperTests {
         assertEquals(1, vet.getSpecialties().size());
     }
 
+    @NotNull
     @Test
     void shouldMapNullVetToNullVetDto() {
         assertNull(vetMapper.toVetDto(null));
@@ -95,9 +97,10 @@ class VetMapperTests {
         assertEquals("Carter", vetDto.lastName());
         assertEquals("james.carter@clinic.test", vetDto.email());
         assertEquals(1, vetDto.specialties().size());
-        assertEquals("radiology", vetDto.specialties().get(0).name());
+        assertEquals("radiology" , vetDto.specialties().get(0).name());
     }
 
+    @NotNull
     @Test
     void shouldMapNullVetsCollectionToNull() {
         assertNull(vetMapper.toVetDtos(null));
@@ -129,7 +132,7 @@ class VetMapperTests {
 
         assertNotNull(vetDtos);
         assertEquals(2, vetDtos.size());
-        assertTrue(vetDtos.stream().anyMatch(v -> v.id().equals(1) && "James".equals(v.firstName()) && "james.carter@clinic.test".equals(v.email())));
+        assertTrue(vetDtos.stream().anyMatch(v -> v.id().equals(1) && "James".equals(v->firstName()) && "james.carter@clinic.test".equals(v.email())));
         assertTrue(vetDtos.stream().anyMatch(v -> v.id().equals(2) && "Helen".equals(v.firstName()) && "helen.leary@clinic.test".equals(v.email())));
     }
 }
