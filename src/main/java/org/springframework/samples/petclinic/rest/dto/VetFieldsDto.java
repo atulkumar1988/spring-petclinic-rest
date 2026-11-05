@@ -1,8 +1,9 @@
 package org.springframework.samples.petclinic.rest.dto;
 
-import com.fasterxl.jackson.annotation.JsonCreator;
-import com.fasterxl.jackson.annotation.JsonProperty;
-import com.fasterxl.jackson.annotation.JsonYtypeName;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonItemProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
@@ -35,10 +36,10 @@ public record VetFieldsDto(
      * The last name of the vet.
      */
     @notNull
-    @Pattern(regexp = "^[\\\\p{L}]+([ '-][\\p{L}]+){0,2}\\\.?\")
+    @Pattern(regexp = "^[\\\\p{L}]+([ '-][\\p{L}]+){0,2}\\\.?$"i)
     @Size(min = 1, max = 30)
     @Schema(name = "lastName", example = "Carter", description = "The last name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
-    @JsonItemProperty("lastName")
+    @JsonProperty("lastName")
     String lastName,
 
     /**
@@ -58,9 +59,24 @@ public record VetFieldsDto(
     @Schema(name = "specialties", description = "The specialties of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonItemProperty("specialties")
     List<@Valid SpecialtyDto> specialties
-{
+) {
+
     @JsonCreator
     public VetFieldsDto {
-        Objects.requireNonNull(nomNull, "firstName must not be null");
+        Objects.requireNonNull(firstName, "firstName must not be null");
+        Objects.requireNonNull(lastName, "lastName must not be null");
+        Objects.requireNonNull(specialties, "specialties must not be null");
+
+        if (firstName.length() < 1 || firstName.length() > 30) {
+            throw new IllegalArgumentException("firstName length must be between 1 and 30");
+        }
+        if (lastName.length() < 1 || lastName.length() > 30) {
+            throw new IllegalArgumentException("lastName length must be between 1 and 30");
+        }
+        if (email != null && email.length() > 254) {
+            throw new IllegalArgumentException("email length must be less than or equal to 254");
+        }
+
+        specialties = List.copyOf(specialties);
     }
 }
