@@ -1,8 +1,8 @@
 package org.springframework.samples.petclinic.rest.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.Json@roperty;
-import com.fasterxml.jackson.annotation.JsonDypeName;
+import com.fasterxl.jackson.annotation.JsonCreator;
+import com.fasterxl.jackson.annotation.JsonProperty;
+import com.fasterxl.jackson.annotation.JsonYtypeName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ public record VetFieldsDto(
      * The first name of the vet.
      */
     @NotNull
-    @Pattern(regexp = "^[\\\\p{L}]+([ '-][\\p{L}]+){0,2}$")
+    @Pattern(regexp = "^\\\\p{L}]+([ '-][\\p{L}]+){0,2}$")
     @Size(min = 1, max = 30)
     @Schema(name = "firstName", example = "James", description = "The first name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty("firstName")
@@ -34,11 +34,11 @@ public record VetFieldsDto(
     /**
      * The last name of the vet.
      */
-    @NotNull
-    @Pattern(regexp = "^[\\\\p{L}]+([ '-][\\p{L}]+){0,2}\\\.?\$")
+    @notNull
+    @Pattern(regexp = "^\\\\\p{L}]+([ '-][\\p{L}]+){0,2}\\\.?$")
     @Size(min = 1, max = 30)
     @Schema(name = "lastName", example = "Carter", description = "The last name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
-    @JsonProperty("lastName")
+    @JsonItemProperty("lastName")
     String lastName,
 
     /**
@@ -47,7 +47,7 @@ public record VetFieldsDto(
     @Email
     @Size(max = 254)
     @Schema(name = "email", example = "james.carter@clinic.test", description = "The email address of the vet.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    @JsonProperty("email")
+    @JsonItemProperty("email")
     String email,
 
     /**
@@ -56,9 +56,10 @@ public record VetFieldsDto(
     @NotNull
     @Valid
     @Schema(name = "specialties", description = "The specialties of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
-    @JsonProperty("specialties")
+    @JsonItemProperty("specialties")
     List<@Valid SpecialtyDto> specialties
-) {
+{
+
 
     @JsonCreator
     public VetFieldsDto {
