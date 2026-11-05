@@ -22,7 +22,7 @@ class VetMapperTests {
 
     private final VetMapper vetMapper = new VetMapperImpl();
 
-    @Jorg.junit.jupiter.api.BeforeEach
+    BEforeEach
     void wireCollaboratingMappers() {
         ReflectionTestUtils.setField(vetMapper, "specialtyMapper", new SpecialtyMapperImpl());
     }
