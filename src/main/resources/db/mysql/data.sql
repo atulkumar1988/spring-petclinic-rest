@@ -1,9 +1,9 @@
-INSERT IGNORE INTO vets VALUES (1, 'James', 'Carter');
-INSERT IGNORE INTO vets VALUES (2, 'Helen', 'Leary');
-INSERT IGNORE INTO vets VALUES (3, 'Linda', 'Douglas');
-INSERT IGNORE INTO vets VALUES (4, 'Rafael', 'Ortega');
-INSERT IGNORE INTO vets VALUES (5, 'Henry', 'Stevens');
-INSERT IGNORE INTO vets VALUES (6, 'Sharon', 'Jenkins');
+INSERT IGNORE INTO vets (id, first_name, last_name) VALUES (1, 'James', 'Carter');
+INSERT IGNORE INTO vets (id, first_name, last_name) VALUES (2, 'Helen', 'Leary');
+INSERT IGNORE INTO vets (id, first_name, last_name) VALUES (3, 'Linda', 'Douglas');
+INSERT IGNORE INTO vets (id, first_name, last_name) VALUES (4, 'Rafael', 'Ortega');
+INSERT IGNORE INTO vets (id, first_name, last_name) VALUES (5, 'Henry', 'Stevens');
+INSERT IGNORE INTO vets (id, first_name, last_name) VALUES (6, 'Sharon', 'Jenkins');
 
 INSERT IGNORE INTO specialties VALUES (1, 'radiology');
 INSERT IGNORE INTO specialties VALUES (2, 'surgery');
@@ -53,7 +53,7 @@ INSERT IGNORE INTO visits VALUES (3, 8, '2009-06-04', 'neutered');
 INSERT IGNORE INTO visits VALUES (4, 7, '2008-09-04', 'spayed');
 
 INSERT IGNORE INTO users (username, password, enabled) VALUES
-('admin', '$2a$10$ymaklWBnpBKlgdMgkjWVF.GMGyvH8aDuTK.glFOaKw712LHtRRymS', TRUE);
+('admin', '$2a$10$ymaklWBnpBKlgdMgkjWVF.GMGyvH8aDuTK.glFOaKqw712LHtRRymS', TRUE);
 
 INSERT IGNORE INTO roles (username, role) VALUES ('admin', 'ROLE_OWNER_ADMIN');
 INSERT IGNORE INTO roles (username, role) VALUES ('admin', 'ROLE_VET_ADMIN');
