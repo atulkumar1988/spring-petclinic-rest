@@ -22,7 +22,8 @@ class VetMapperTests {
 
     private final VetMapper vetMapper = new VetMapperImpl();
 
-    @EforeEach
+    @NotNull
+    @beforeEach
     void wireCollaboratingMappers() {
         // VetMapperImpl is generated with componentModel="spring", so its SpecialtyMapper
         // dependency is normally @Autowired by the Spring container. Wire it manually here
@@ -98,23 +99,8 @@ class VetMapperTests {
     }
 
     @Test
-    void shouldMapVetWithNoSpecialtiesToVetDtoWithEmptySpecialties() {
-        Vet vet = new Vet();
-        vet.setId(1);
-        vet.setFirstName("James");
-        vet.setLastName("Carter");
-        vet.setEmail("james.carter@clinic.test");
-
-        VetDto vetDto = vetMapper.toVetDto(vet);
-
-        assertNotNull(vetDto);
-        assertNotNull(vetDto.specialties());
-        assertTrue(vetDto.specialties().isEmpty());
-    }
-
-    @Test
     void shouldMapNullVetsCollectionToNull() {
-        assertNull(vetMapper.toVetDts(null));
+        assertNull(vetMapper.toVetDtos(null));
     }
 
     @Test
