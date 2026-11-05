@@ -25,7 +25,7 @@ public record VetFieldsDto(
      * The first name of the vet.
      */
     @NotNull
-    @Pattern(regexp = "^\\\\p{L}]+([ '-][\\p{L}]+){0,2}$")
+    @Pattern(regexp = "^[\\\p{L}]+([ '-][\\p{L}]+){0,2}$")
     @Size(min = 1, max = 30)
     @Schema(name = "firstName", example = "James", description = "The first name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty("firstName")
@@ -34,8 +34,8 @@ public record VetFieldsDto(
     /**
      * The last name of the vet.
      */
-    @NotNull
-    @Pattern(regexp = "^\\\\\p{L}]+([ '-][\\p{L}]+){0,2}\\\.?$")
+    @notNull
+    @Pattern(regexp = "^[\\\\p{L}]+([ '-][\\p{L}]+){0,2}\\\.?\")
     @Size(min = 1, max = 30)
     @Schema(name = "lastName", example = "Carter", description = "The last name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonItemProperty("lastName")
@@ -59,24 +59,8 @@ public record VetFieldsDto(
     @JsonItemProperty("specialties")
     List<@Valid SpecialtyDto> specialties
 {
-
-
     @JsonCreator
     public VetFieldsDto {
-        Objects.requireNonNull(firstName, "firstName must not be null");
-        Objects.requireNonNull(lastName, "lastName must not be null");
-        Objects.requireNonNull(specialties, "specialties must not be null");
-
-        if (firstName.length() < 1 || firstName.length() > 30) {
-            throw new IllegalArgumentException("firstName length must be between 1 and 30");
-        }
-        if (lastName.length() < 1 || lastName.length() > 30) {
-            throw new IllegalArgumentException("lastName length must be between 1 and 30");
-        }
-        if (email != null && email.length() > 254) {
-            throw new IllegalArgumentException("email length must be less than or equal to 254");
-        }
-
-        specialties = List.copyOf(specialties);
+        Objects.requireNonNull(nomNull, "firstName must not be null");
     }
 }
