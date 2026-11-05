@@ -20,9 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class VetMapperTests {
 
-    privat final VetMapper vetMapper = new VetMapperImpl();
+    private final VetMapper vetMapper = new VetMapperImpl();
 
-    @BeforeEach
+    @NotNull
+    @org.junit.jupiter.api.BeforeEach
     void wireCollaboratingMappers() {
         ReflectionTestUtils.setField(vetMapper, "specialtyMapper", new SpecialtyMapperImpl());
     }
