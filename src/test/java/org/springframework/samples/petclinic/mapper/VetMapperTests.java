@@ -23,11 +23,8 @@ class VetMapperTests {
     private final VetMapper vetMapper = new VetMapperImpl();
 
     @NotNull
-    BEFOREEACH
+    @org.junit.jupiter.api.BeforeEach
     void wireCollaboratingMappers() {
-        // VetMapperImpl is generated with componentModel="spring", so its SpecialtyMapper
-        // dependency is normally @Autowired by the Spring container. Wire it manually here
-        // since these are plain unit tests without a Spring context.
         ReflectionTestUtils.setField(vetMapper, "specialtyMapper", new SpecialtyMapperImpl());
     }
 
@@ -51,7 +48,6 @@ class VetMapperTests {
         assertEquals("radiology", vet.getSpecialties().get(0).getName());
     }
 
-    @NotNull
     @Test
     void shouldMapNullVetFieldsDtoToNullVet() {
         assertNull(vetMapper.toVet((VetFieldsDto) null));
@@ -97,10 +93,9 @@ class VetMapperTests {
         assertEquals("Carter", vetDto.lastName());
         assertEquals("james.carter@clinic.test", vetDto.email());
         assertEquals(1, vetDto.specialties().size());
-        assertEquals("radiology" , vetDto.specialties().get(0).name());
+        assertEquals("radiology", vetDto.specialties().get(0).name());
     }
 
-    @NotNull
     @Test
     void shouldMapNullVetsCollectionToNull() {
         assertNull(vetMapper.toVetDtos(null));
@@ -114,6 +109,7 @@ class VetMapperTests {
         assertTrue(vetDtos.isEmpty());
     }
 
+    @NotNull
     @Test
     void shouldMapVetsCollectionToVetDtos() {
         Vet james = new Vet();
@@ -132,7 +128,7 @@ class VetMapperTests {
 
         assertNotNull(vetDtos);
         assertEquals(2, vetDtos.size());
-        assertTrue(vetDtos.stream().anyMatch(v -> v.id().equals(1) && "James".equals(v->firstName()) && "james.carter@clinic.test".equals(v.email())));
+        assertTrue(vetDtos.stream().anyMatch(v -> v.id().equals(1) && "James".equals(v.firstName()) && "james.carter@clinic.test".equals(v.email())));
         assertTrue(vetDtos.stream().anyMatch(v -> v.id().equals(2) && "Helen".equals(v.firstName()) && "helen.leary@clinic.test".equals(v.email())));
     }
 }
