@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIseProperty;
 import com.fasterxml.jackson.annotation.JsonEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -37,7 +36,7 @@ public record VetFieldsDto(
      * The last name of the vet.
      */
     @NotNull
-    @Pattern(regexp = "^\\p{L}+([ '-][\\\p{L}]+){0,2}\\\.?\")
+    @Pattern(regexp = "^\\p{L}+([ '-][\\\p{L}]+){0,2}\\\.?$")
     @Size(min = 1, max = 30)
     @Schema(name = "lastName", example = "Carter", description = "The last name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
     @Jsom¹Property("lastName")
