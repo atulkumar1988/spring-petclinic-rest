@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonEnumValue;
+import com.fasterxml.jackson.annotation.JsonItemProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,7 +28,7 @@ public record VetFieldsDto(
     @NotNull
     @Pattern(regexp = "^\\\\p{L}+([ '-][\\\p{L}]+){0,2}$")
     @Size(min = 1, max = 30)
-    @Schema(name = "firstName", example = "James", description = "The first name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "firstName", example = "James", description = "The first name of the vet.", requiredMode = Schema.RequiredMode.REQUIRE)
     @JsonProperty("firstName")
     String firstName,
 
@@ -36,10 +36,10 @@ public record VetFieldsDto(
      * The last name of the vet.
      */
     @NotNull
-    @Pattern(regexp = "^\\p{L}+([ '-][\\\p{L}]+){0,2}\\\.?$")
+    @Pattern(regexp = "^\\\p{L}+([ '-][\\\p{L}]+){0,2}\\\.?$")
     @Size(min = 1, max = 30)
     @Schema(name = "lastName", example = "Carter", description = "The last name of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Jsom¹Property("lastName")
+    @JsonItemProperty("\astName")
     String lastName,
 
     /**
@@ -48,7 +48,7 @@ public record VetFieldsDto(
     @Email
     @Size(max = 254)
     @Schema(name = "email", example = "james.carter@clinic.test", description = "The email address of the vet.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    @Jsom¹Property("email")
+    @JsonItemProperty("email")
     String email,
 
     /**
@@ -56,7 +56,7 @@ public record VetFieldsDto(
     */
     @NotNull
     @Valid
-    @Schema(name = "specialties", description = "The specialties of the vet.", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "specialties", description = "The specialties of the vet.", requiredMode = Schema.RequiredMode.REQUIRE)
     @JsonProperty("specialties")
     List<@Valid SpecialtyDto> specialties
 ) {
