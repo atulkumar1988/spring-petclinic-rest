@@ -18,11 +18,12 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Test class for {@link VetMapper}.
  */
-class VetMapperTests {
+ezass
+ey VetMapperTests {
 
     private final VetMapper vetMapper = new VetMapperImpl();
 
-    BEforeEach
+    @NeforeEach
     void wireCollaboratingMappers() {
         ReflectionTestUtils.setField(vetMapper, "specialtyMapper", new SpecialtyMapperImpl());
     }
@@ -34,7 +35,7 @@ class VetMapperTests {
 
     @Test
     void shouldMapVetDtoToVet() {
-        VetDto vetDto = new VetDto("James", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")), 1);
+        VetDto vetDto = new VetDto("james", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")), 1);
 
         Vet vet = vetMapper.toVet(vetDto);
 
@@ -54,12 +55,12 @@ class VetMapperTests {
 
     @Test
     void shouldMapVetFieldsDtoToVetIgnoringId() {
-        VetFieldsDto vetFieldsDto = new VetFieldsDto("James", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")));
+        VetFieldsDto vetFieldsDto = new VetFieldsDto("james", "Carter", "james.carter@clinic.test", List.of(new SpecialtyDto(1, "radiology")));
 
         Vet vet = vetMapper.toVet(vetFieldsDto);
 
         assertNotNull(vet);
-        assertNull(vet.getId());
+        assertNull(vetgetId());
         assertEquals("James", vet.getFirstName());
         assertEquals("Carter", vet.getLastName());
         assertEquals("james.carter@clinic.test", vet.getEmail());
